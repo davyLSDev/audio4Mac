@@ -4,20 +4,25 @@ using System.Runtime.InteropServices;
 
 namespace SimpleAudio
 {
-	/* This class came from: https://mhut.ch/journal/2010/01/25/integrating_gtk_application_mac */
+	/* This class came from: https://mhut.ch/journal/2010/01/25/integrating_gtk_application_mac
+	 * I've modified it a bit to make it useful for detecting Windows, Mac, or Linux platform */
 	public static class PlatformDetection
 	{
 		public readonly static bool IsWindows;
+		public readonly static bool IsLinux;
 		public readonly static bool IsMac;
 		
 		static PlatformDetection ()
 		{
 			IsWindows = Path.DirectorySeparatorChar == '\\';
-			IsMac = !IsWindows && IsRunningOnMac();
+			IsLinux = !IsWindows && (GetUnixType() == "Linux");
+			IsMac = !IsWindows && (GetUnixType() == "Darwin");
 		}
 		
 		//From Managed.Windows.Forms/XplatUI
-		static bool IsRunningOnMac ()
+
+		static string GetUnixType ()
+		//static bool IsRunningOnMac ()
 		{
 			IntPtr buf = IntPtr.Zero;
 			try {
@@ -25,15 +30,16 @@ namespace SimpleAudio
 				// This is a hacktastic way of getting sysname from uname ()
 				if (uname (buf) == 0) {
 					string os = System.Runtime.InteropServices.Marshal.PtrToStringAnsi (buf);
-					if (os == "Darwin")
-						return true;
+					// if (os == "Darwin")
+						return os;
 				}
 			} catch {
 			} finally {
 				if (buf != IntPtr.Zero)
 					System.Runtime.InteropServices.Marshal.FreeHGlobal (buf);
 			}
-			return false;
+			return "rubbish"; 
+				//false;
 		}
 		
 		[System.Runtime.InteropServices.DllImport ("libc")]

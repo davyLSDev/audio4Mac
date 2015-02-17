@@ -20,6 +20,7 @@ namespace SimpleAudio
 	{
 		public int ERR = 0;
 		public NSSound playback = new NSSound ("../../media/applause_y.wav", byRef: false);
+
 		public AudioInterface ()
 		{
 			NSApplication.Init ();

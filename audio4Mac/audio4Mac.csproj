@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Research/EarlyAttempts.txt" />
+    <None Include="Research\EarlyAttempts.txt" />
+    <None Include="TODO.txt" />
   </ItemGroup>
 </Project>
