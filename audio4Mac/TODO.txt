@@ -3,3 +3,5 @@
 3. Bells and whistles for metering: 
 	a) dB meter
 	b) length of recording meter
+4. fix up so this runs without crashing outside of Mac 
+	... although this is test stuff, and it is designed for MacOSX tesing
