@@ -1,0 +1,24 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="audio4Mac/PlatformDetection.cs">
+    <Files>
+      <File FileName="audio4Mac/AudioInterface.cs" Line="1" Column="1" />
+      <File FileName="audio4Mac/AudioUI.cs" Line="1" Column="1" />
+      <File FileName="audio4Mac/PlatformDetection.cs" Line="15" Column="52" />
+    </Files>
+    <Pads>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True">
+          <Node name="audio4Mac" expanded="True" />
+        </State>
+      </Pad>
+      <Pad Id="ConnectionManagerPad">
+        <State selected="True" />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

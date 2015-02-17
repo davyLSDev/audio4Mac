@@ -1,0 +1,222 @@
+// stuff I tried, but these ideas didn't work out all that well for  doing Platform detection 
+
+			/* I got some info from http://tech.pro/tutorial/841/csharp-tutorial-using-reflection-to-get-object-information
+			about how to use PlatformID ... a type . . .
+			// int myPlatform = PlatformID; */
+string machine;
+machine = "This is the information from System Reflection about PlatformID: ";
+Type myObjectType = typeof (PlatformID);
+// string machine = myObjectType.ToString ();
+System.Reflection.FieldInfo[] fieldInfo = myObjectType.GetFields();
+
+foreach (System.Reflection.FieldInfo info in fieldInfo)
+	//Console.WriteLine(info.Name);
+	machine = machine + " , " + info.Name;
+// This gives me the following: vaule__, Win32S, Win32NT, Win32Windows, WinCE, Unix, Xbox, MacOSX
+
+PlatformID mach = new PlatformID();
+// this results in "0" --> machine = mach.value__.ToString();
+// This cannot compile: --> machine = mach.MacOSX.ToString();
+// error Static member ... cannot be accessed with an instance reference, qualify it with a type name instead ...
+machine = "This machine is: ";
+// Try this: 
+foreach (System.Reflection.FieldInfo info in fieldInfo)
+{
+	switch (info.Name)
+	{
+	case "Win32S":
+		machine = machine + "Win32S";
+		break;
+	case "Win32NT":
+		machine = machine + "Win32NT";
+		break;
+	case "Win32Windows":
+		machine = machine + "Win32Windows";
+		break;
+	case "WinCE":
+		machine = machine + "WinCE";
+		break;
+	case "Unix":
+		machine = machine + "Unix";
+		break;
+	case "Xbox":
+		machine = machine + "Xbox";
+		break;
+	case "MacOSX":
+		machine = machine + "MacOSX";
+		break;
+	default:
+		machine = machine + "unidentified";
+		break;
+	}
+}
+
+
+/* string machine;
+			if (PlatformID.MacOSX) {
+				machine = "MacOSX";
+			} */
+/* 
+			switch (PlatformID)
+			{
+			case PlatformID.MacOSX:
+			{
+				machine = "MacOSX";
+				return;
+			}
+			/* PlatformID.MacOSX
+			PlatformID.Unix;
+			PlatformID.Win32NT;
+			PlatformID.Win32S;
+			PlatformID.Win32Windows;
+			PlatformID.WinCE;
+
+			PlatformID.Xbox;
+			default:
+			{
+				machine = "Undefined";
+				return;
+			}
+			} */
+
+/* Reading http://docs.go-mono.com/?link=P%3aSystem.OperatingSystem.Platform
+			 * I get the impression, that the value is obtained by a getter */
+machine = mach.ToString (); // hmm this yeilds "Win32S"
+
+/* this needs System.Flags, which I don't have on this version:
+			 * Platform platty = new Platform();
+			 * machine = platty.ToString (); */
+
+
+/* maybe this is the way to do it: http://mono.wikia.com/wiki/Detecting_the_execution_platform
+			 except it reports "This is a Unix operating system" hmmm 
+			 and I quote from Mike Hutchitson: "you can't rely on PlatformID.MacOSX" yeah, no kidding says me:
+			 https://mhut.ch/journal/2010/01/25/integrating_gtk_application_mac*/
+string msg1 = "This is a Windows operating system.";
+string msg2 = "This is a Unix operating system.";
+string msg3 = "This is a MacOSX operating system.";
+string msg4 = "This is an Xbox operating system.";
+string msg5 = "ERROR: This platform identifier is invalid.";
+
+OperatingSystem os = Environment.OSVersion;
+PlatformID     pid = os.Platform;
+switch (pid) 
+{
+case PlatformID.Win32NT:
+case PlatformID.Win32S:
+case PlatformID.Win32Windows:
+case PlatformID.WinCE:
+	machine = msg1;
+	break;
+case PlatformID.Unix:
+	machine = msg2;
+	break;
+case PlatformID.MacOSX:
+	machine = msg3;
+	break;
+case PlatformID.Xbox:
+	machine = msg4;
+	break;
+default:
+	machine = msg5;
+	break;
+	
+// PlatformDetection platty = new PlatformDetection();	
+
+			/* One more go at it, at least for my system: try the command: 'uname -s'
+			 ahh looking at the code from M Hutchitson, that is what he used */
+
+/***********************************/	
+/* Early attempts at getting sound */
+/***********************************/	
+		
+		/* Console.Beep => doesn't appear to make any noise, based on: Console.Beep(freq Hz, time ms) (doesn't work in mac or linux)
+		 * at least when run from within Xamarin studio, but seems to work when program is run from command line but, all these beeps
+		 * sound the same to me
+		Console.Beep (100, 1000);
+		System.Threading.Thread.Sleep (1000);
+		Console.Beep (10000, 1000);
+		System.Threading.Thread.Sleep (1000);
+		Console.Beep (10000, 3000);  /* -----> just commenting out to get right to the applause */
+		
+		
+		/* This doesn't work either in mac, but it does in linux ... maybe it does work outside of xamarin studio
+		 * No, it doesn't 
+		System.Media.SystemSounds.Hand.Play();
+		System.Media.SystemSounds.Asterisk.Play ();
+		/* System.Threading.Thread.Sleep (1000);
+		System.Media.SystemSounds.Beep.Play ();
+		System.Threading.Thread.Sleep (2000);
+		System.Media.SystemSounds.Beep.Play (); It doesn't appear to produce sound from this mac in CLI, or MD
+		System.Media.SystemSounds.Hand.Play (); this doesn't appear to work either */
+
+		/* IrrKlang code here:
+		 * doesn't appear to work! 
+		 * ISoundEngine engine = new ISoundEngine();
+		 * engine.Play2D("../../IrrKlangMedia/getout.ogg", true); */
+		 
+		 /* this doesn't appear to work ... it is probably not quite right anyway though:
+		[DllImport ("libirrklang")]
+		static extern void Play2D (); */
+
+
+		/*
+		// using NSSound idea from: http://stackoverflow.com/questions/11593794/easiest-way-to-play-sound-with-mono-on-osx
+		// it builds and runs in Xamarin, but it doesn't make any sound
+		// when I try to run it from CLI, it crashes .... until I realized that you need to do the
+		NSApplication.Init ();
+		// NSApplication.Init (); // **** this is the line that is needed to be able to use NSSound
+		/* is there any other way to initialize the sound? There appears to be a way, but I don't have autocompletion
+		enabled and the API reference afaict doesn't seem to help much */
+	// NSApplication.Init ();
+		/* hmmm  not sure about this => var soundToPlay = new NSUrl("../../media/applause_y.wav");
+		var playback = new NSSound (soundToPlay, byRef: false); */
+		
+		/* this doesn't appear to work in Mac ... the media player appears to be Alsa though
+		 * unless on windows platform: 
+		SoundPlayer sp = new SoundPlayer ("../../media/applause_y.wav"); 
+		sp.Play (); */
+
+			NSApplication.Init ();
+			var playback = new NSSound ("../../media/applause_y.wav", byRef: false);
+			playback.Play ();
+
+		// Testing some stuff ...
+		// System.Threading.Thread.Sleep (500);
+	// playback.Pause ();
+		// System.Threading.Thread.Sleep (2000);
+	// playback.Resume ();
+		// not sure if we need this???? playback.Dispose ();
+
+		/* more testing:
+		 * playback.PlaybackDeviceID = "Mac Sound"; 
+			string device= playback.PlaybackDeviceID;
+			maybe the getters and setters for 'PlaybackDeviceID' don't work? */
+			
+		SimpleAudio.playback.Pause ();
+		SimpleAudio.Resume ();
+		
+		
+WORKING WITH THIS NOW:		
+		
+		/* got this next bit from: http://docs.go-mono.com/?link=T%3aAVFoundation.AVAudioRecorder%2f* and
+			 * I modified it until it compiled */
+			var settings = new AudioSettings () {
+			//AVAudioRecorderSettings () {
+				// AudioFormat = AudioFormatType.LinearPCM,
+				AudioQuality = AVAudioQuality.High,
+				SampleRate = 44100f,
+				NumberChannels = 1
+			};
+			NSUrl url = new NSUrl("test.wav");
+			NSError error = new NSError();
+			var recorder = AVAudioRecorder.Create (url, settings, out error);
+			if (recorder == null){
+				var result = MessageBox.Show (error.ToString (), "Error Number", 
+				                               MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+			recorder.PrepareToRecord ();            
+			recorder.Record ();
+			recorder.Stop ();
+		
