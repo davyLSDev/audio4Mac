@@ -56,7 +56,7 @@ namespace SimpleAudio {
 			/* Ok, this one is using code from M Hutchitson (the website noted in 'PlatformDetection.cs' */
 			string machine;
 			if (PlatformDetection.IsMac) {
-				machine = "Your running on a Mac!";
+				machine = "You're running on a Mac!";
 			} else if (PlatformDetection.IsLinux) {
 				machine = "Your machine is Linux based.";
 			} else if (PlatformDetection.IsWindows) {
