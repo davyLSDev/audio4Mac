@@ -11,12 +11,18 @@ namespace SimpleAudio
 		public readonly static bool IsWindows;
 		public readonly static bool IsLinux;
 		public readonly static bool IsMac;
+		public readonly static string DetectedOS;
 		
 		static PlatformDetection ()
 		{
 			IsWindows = Path.DirectorySeparatorChar == '\\';
-			IsLinux = !IsWindows && (GetUnixType() == "Linux");
-			IsMac = !IsWindows && (GetUnixType() == "Darwin");
+			if (IsWindows) {
+				DetectedOS = "Windows";
+			} else {
+				DetectedOS = GetUnixType ();
+				IsLinux = (DetectedOS == "Linux");
+				IsMac = (DetectedOS == "Darwin");
+			}
 		}
 		
 		//From Managed.Windows.Forms/XplatUI

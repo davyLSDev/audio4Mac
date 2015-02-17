@@ -6,7 +6,7 @@ using System.Media;
 
 namespace SimpleAudio {
 	class MForm : Form {
-		AudioInterface Testing = new AudioInterface();
+			AudioInterface Testing = new AudioInterface();
 		public MForm() {
 			Text = "Audio on Mac";
 			Size = new System.Drawing.Size(250, 250);
@@ -57,10 +57,15 @@ namespace SimpleAudio {
 			string machine;
 			if (PlatformDetection.IsMac) {
 				machine = "Your running on a Mac!";
+			} else if (PlatformDetection.IsLinux) {
+				machine = "Your machine is Linux based.";
+			} else if (PlatformDetection.IsWindows) {
+				machine = "Unfortunately, yours is a windows machine.";
+			} else {
+				machine = PlatformDetection.DetectedOS;
 			}
-			else {
-				machine = "The routine failed to detect a MacOSX machine!";
-			}
+			/* if you need to know what 'uname s' returns, use this
+			 * machine = "Your machine is " + PlatformDetection.DetectedOS + " based"; */
 
 			var result = MessageBox.Show (machine, "Your system info:", 
 			                              MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -82,7 +87,6 @@ namespace SimpleAudio {
 			ERR = Testing.Pause ();
 			var result = MessageBox.Show ("Pause, exit code: " + ERR.ToString (), "no sound hopefuly", 
 		                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-
 		}
 
 		void OnClickResume(object sender, EventArgs e) {
