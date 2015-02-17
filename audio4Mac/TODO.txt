@@ -1,2 +1,5 @@
 1. get the audio recording stuff working using native Mac ... CoreAudio or something
 2. fix up the Platform detection algorithm ... make it mine
+3. Bells and whistles for metering: 
+	a) dB meter
+	b) length of recording meter
