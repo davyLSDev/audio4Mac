@@ -1,6 +1,9 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+/* Note libpalaso/Palaso/PlatformUtilities/Platform.cs covers the ff platform issues as public bool
+ * 	/
+
 
 namespace SimpleAudio
 {

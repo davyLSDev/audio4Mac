@@ -14,6 +14,14 @@ using MonoMac.AppKit;
 using MonoMac.AudioToolbox;
 using MonoMac.AudioUnit;
 
+/* note in libpalaso/Palaso.Media/AudioFactory.cs is where the audio interface is
+ * chosen based on if the platform is MONO or not. If it is, then ALSA is used and AudioFactory returns 
+ * "AudioAlsaSession (filepath)", otherwise windows returns "AudioIrrKlangSession(filePath)";
+ *  there is a AudioGStreamerSession, and AudioNullSession ...
+ *  looked into using GStreamer ... it uses QTKit, 
+ * 	looked into SDL / and C# wrapper for that HMMMM
+ */
+
 namespace SimpleAudio
 {
 	public class AudioInterface

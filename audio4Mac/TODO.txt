@@ -5,3 +5,40 @@
 	b) length of recording meter
 4. fix up so this runs without crashing outside of Mac 
 	... although this is test stuff, and it is designed for MacOSX tesing
+5. need to look at how we do sound on WeSay
+	encoding, speed, etc
+	
+Ideas:
+	Frameworks:
+		CoreAudio, (http://www.filibeto.org/unix/macos/lib/dev/documentation/MusicAudio/Reference/CoreAudio/CoreAudio.pdf)
+			AudioQueueServices https://developer.apple.com/library/mac/documentation/MusicAudio/Reference/AudioQueueReference/index.html#//apple_ref/c/func/AudioQueueNewInput
+			AudioToolkit, 
+			AudioUnits
+			AudioToolbox
+		AVFoundation ... I understand that these were introduced in Lion
+		AVAudioRecorder,
+		QTKit ... I get the impression this is the old way, and it requires more coding 
+		This explains in summary the main frameworks: https://developer.apple.com/technologies/mac/audio-and-video.html
+			From what I can see, this might be what I need to explore:
+	
+Useful websites:
+	C# / Mono:
+	http://macapi.xamarin.com/?link=E%3aMonoMac.AudioToolBox.AudioQueueProperty
+	http://docs.go-mono.com/?link=T%3aFoundation.NSCoder%2fC
+	
+	https://developer.apple.com/library/mac/documentation/MusicAudio/Reference/AudioQueueReference/index.html#//apple_ref/doc/uid/TP40005117-CH5g-RCM0127
+	http://stackoverflow.com/questions/8101667/mac-os-x-simple-voice-recorder
+	For iOS: https://developer.apple.com/library/ios/documentation/MusicAudio/Conceptual/AudioUnitHostingGuide_iOS/Introduction/Introduction.html#//apple_ref/doc/uid/TP40009492-CH1-SW1
+
+Calling API from C# / C:
+http://www.codeproject.com/Articles/1285/Calling-API-functions-using-C
+
+might learn s/th from these projects:
+1) Audacity ... SVN ... slow slow slow d/l, uses WX widgets for sound
+https://github.com/ringw/recorder
+This looks simple & uses the AVFoundation Framework: https://github.com/magickworx/SimpleAudioRecorder
+More complicated, may have ideas: https://github.com/azureatom/AudioRecorder
+Using NAudio: https://github.com/tcfritchman/canyouhearmenow
+	also: http://stackoverflow.com/questions/6985512/recording-with-naudio-using-c-sharp
+	BUT, prob not supported on Mac: http://stackoverflow.com/questions/6186559/will-naudio-support-mac-osx
+	
