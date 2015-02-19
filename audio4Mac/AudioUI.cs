@@ -6,7 +6,7 @@ using System.Media;
 
 namespace SimpleAudio {
 	class MForm : Form {
-			AudioInterface Testing = new AudioInterface();
+		AudioInterface Testing = new AudioInterface("../../media/applause_y.wav");
 		public MForm() {
 			Text = "Audio on Mac";
 			Size = new System.Drawing.Size(250, 250);
@@ -28,10 +28,10 @@ namespace SimpleAudio {
 			recordButton.Text = "Record";
 			recordButton.Click += new EventHandler(OnClickRecord);
 
-			System.Windows.Forms.Button pauseButton = new System.Windows.Forms.Button();
-			pauseButton.Location = new System.Drawing.Point(20, 120);
-			pauseButton.Text = "Pause!";
-			pauseButton.Click += new EventHandler(OnClickPause);
+			System.Windows.Forms.Button stopRecordingAndSaveAsWavButton = new System.Windows.Forms.Button();
+			stopRecordingAndSaveAsWavButton.Location = new System.Drawing.Point(20, 120);
+			stopRecordingAndSaveAsWavButton.Text = "OnClickStopRecordingAndSaveAsWav!";
+			stopRecordingAndSaveAsWavButton.Click += new EventHandler(OnClickStopRecordingAndSaveAsWav);
 
 			System.Windows.Forms.Button resumeButton = new System.Windows.Forms.Button();
 			resumeButton.Location = new System.Drawing.Point(20, 150);
@@ -46,7 +46,7 @@ namespace SimpleAudio {
 			Controls.Add(systemButton);
 			Controls.Add(playButton);
 			Controls.Add (recordButton);
-			Controls.Add(pauseButton);
+			Controls.Add(stopRecordingAndSaveAsWavButton);
 			Controls.Add (resumeButton);
 			Controls.Add (quitButton);
 			CenterToScreen();
@@ -71,38 +71,41 @@ namespace SimpleAudio {
 			                              MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		public void OnClickPlay(object sender, EventArgs e) {
-			int ERR;
-			ERR = Testing.Play ();
-			var result = MessageBox.Show ("Play, exit code: " + ERR.ToString (), "some sound hopefuly", 
+		 	public void OnClickPlay(object sender, EventArgs e) {
+			/* int ERR;
+			ERR = */
+			Testing.Play ();
+			var result = MessageBox.Show ("This is where you should hear audio.", "some sound hopefuly", 
 		                              MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
-	
+
 		void OnEnter(object sender, EventArgs e) {
 			Console.WriteLine("Button Entered");
 		}
 
-		void OnClickPause(object sender, EventArgs e) {
-			int ERR;
-			ERR = Testing.Pause ();
-			var result = MessageBox.Show ("Pause, exit code: " + ERR.ToString (), "no sound hopefuly", 
+			/* void OnClickPause(object sender, EventArgs e) { This is the old one */
+			void OnClickStopRecordingAndSaveAsWav (object sender, EventArgs e) { 
+			/* int ERR;
+			ERR = Testing.Pause (); in the new AudioInterface, there is no Pause method */
+			Testing.StopRecordingAndSaveAsWav ();
+			var result = MessageBox.Show ("The audio should stop recording and save as wav file.", "no sound hopefuly", 
 		                             MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		void OnClickResume(object sender, EventArgs e) {
-			int ERR;
-			ERR = Testing.Resume ();
-			var result = MessageBox.Show ("Resume, exit code: " + ERR.ToString (), "some sound hopefuly", 
+			/* int ERR;
+			ERR = Testing.Resume (); in the new AudioInterface, there is no Resume method */
+			var result = MessageBox.Show ("The audio should resume, we hope!", "some sound hopefuly", 
 		                             MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 		}
 
 		void OnClickRecord(object sender, EventArgs e) {
-			int ERR;
-			ERR = Testing.Record ();
-			var result = MessageBox.Show ("Record, exit code: " + ERR.ToString (), "some sound hopefuly", 
-			                              MessageBoxButtons.OK, MessageBoxIcon.Information);
-			
+			/* int ERR;
+			ERR = */
+			Testing.StartRecording ();
+			var result = MessageBox.Show ("Speak into the microphone, we hope to record your voice.", "some sound hopefuly", 
+			                              MessageBoxButtons.OK, MessageBoxIcon.Information);	
 		}
 
 		void OnClickQuit(object sender, EventArgs e) {

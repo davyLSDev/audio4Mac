@@ -32,7 +32,7 @@ namespace SimpleAudio
 	/* This opening to this class will look more like: 
 	public class AudioAVFoundationSession : ISimpleAudioSession */
 	{
-		// first attempt ... note some overloading of methods from here to the new AudioAVFoundationSession work
+		/* first attempt ... note some overloading of methods from here to the new AudioAVFoundationSession work
 		public int ERR = 0;
 		public NSSound playback = new NSSound ("../../media/applause_y.wav", byRef: false);
 
@@ -59,6 +59,7 @@ namespace SimpleAudio
 			playback.Resume ();
 			return ERR;
 		}
+		*/
 
 		/* The following is in template form from libpalaso/Palaso.Media/AlsaAudio/AlsaAudioSession.cs 
 		 * ... what needs to be implemented for libpalaso Media, and later Palaso.MediaTest et. al. 
@@ -82,8 +83,15 @@ namespace SimpleAudio
 		{
 			FilePath = filePath;
 			// _device = new AlsaAudioDevice();
+			NSUrl UrlFilePath = new NSUrl(filePath);
+			NSString UrlDomain = new NSString ();
+			UrlDomain = (NSString)"Audio";
+			int ErrorCode = 0;
+			NSError ERR = new NSError (UrlDomain, ErrorCode);
+
 			_recordingDevice = new AVAudioRecorder ();
-			_playbackDevice = new AVAudioPlayer ();
+			_playbackDevice = new AVAudioPlayer(
+				"../../media/applause_y.wav", ERR);
 		}
 
 		#endregion
@@ -220,7 +228,7 @@ namespace SimpleAudio
 		public void StopPlaying()
 		{
 			// _device.StopPlaying();
-			_playbackDevice.FinishedPlaying;
+			_playbackDevice.Stop (); 
 		}
 
 		#endregion
