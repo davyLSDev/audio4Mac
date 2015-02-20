@@ -1,3 +1,16 @@
+How to program with Cocoa APIs, ie NSError:
+http://nshipster.com/nserror/
+http://mono-framework.com/MonoMac  looks like some useful stuff there, lots of broken links though
+
+
+this is for iOS, but seems in depth: http://developer.xamarin.com/guides/ios/advanced_topics/binding_objective-c/binding_objc_libs/
+http://stackoverflow.com/questions/17300851/call-objective-c-code-from-net-monomac
+which led to ...
+http://www.mono-project.com/archived/monomac_documentation_binding_new_objectivec_types/
+
+
+this looks useful: http://www.codeproject.com/Articles/1285/Calling-API-functions-using-C
+
 1. get the audio recording stuff working using native Mac ... CoreAudio or something
 2. fix up the Platform detection algorithm ... make it mine
 3. Bells and whistles for metering: 
