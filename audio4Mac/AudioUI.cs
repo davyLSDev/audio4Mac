@@ -6,9 +6,9 @@ using System.Media;
 
 namespace SimpleAudio {
 	class MForm : Form {
-		AudioInterface Testing = new AudioInterface("../../media/applause_y.wav");
+		AudioInterface Testing = new AudioInterface("../../media/test.wav");
 		public MForm() {
-			Text = "Audio on Mac";
+			Text = "Audio on Mac OSX Lion +";
 			Size = new System.Drawing.Size(250, 250);
 		
 			System.Windows.Forms.Button systemButton = new System.Windows.Forms.Button();
@@ -17,37 +17,37 @@ namespace SimpleAudio {
 			systemButton.Font = new System.Drawing.Font("Courier", 8F);
 			systemButton.Click += new EventHandler(OnClickSystem);
 
+			System.Windows.Forms.Button recordButton = new System.Windows.Forms.Button();
+			recordButton.Location = new System.Drawing.Point(80, 60);
+			recordButton.Text = "Record";
+			recordButton.Click += new EventHandler(OnClickRecord);
+
+			System.Windows.Forms.Button stopRecording = new System.Windows.Forms.Button();
+			stopRecording.Location = new System.Drawing.Point(80, 90);
+			stopRecording.Text = "Stop Recording";
+			stopRecording.Click += new EventHandler(OnClickStopRecordingAndSaveAsWav);
+
 			System.Windows.Forms.Button playButton = new System.Windows.Forms.Button();
-			playButton.Location = new System.Drawing.Point(20, 60);
+			playButton.Location = new System.Drawing.Point(80, 120);
 			playButton.Text = "Play!";
 			playButton.Click += new EventHandler(OnClickPlay);
 			playButton.MouseEnter += new EventHandler(OnEnter);
 
-			System.Windows.Forms.Button recordButton = new System.Windows.Forms.Button();
-			recordButton.Location = new System.Drawing.Point(20, 90);
-			recordButton.Text = "Record";
-			recordButton.Click += new EventHandler(OnClickRecord);
-
-			System.Windows.Forms.Button stopRecordingAndSaveAsWavButton = new System.Windows.Forms.Button();
-			stopRecordingAndSaveAsWavButton.Location = new System.Drawing.Point(20, 120);
-			stopRecordingAndSaveAsWavButton.Text = "OnClickStopRecordingAndSaveAsWav!";
-			stopRecordingAndSaveAsWavButton.Click += new EventHandler(OnClickStopRecordingAndSaveAsWav);
-
 			System.Windows.Forms.Button resumeButton = new System.Windows.Forms.Button();
-			resumeButton.Location = new System.Drawing.Point(20, 150);
+			resumeButton.Location = new System.Drawing.Point(80, 150);
 			resumeButton.Text = "Resume";
 			resumeButton.Click += new EventHandler(OnClickResume);
 
 			System.Windows.Forms.Button quitButton = new System.Windows.Forms.Button();
-			quitButton.Location = new System.Drawing.Point(20, 180);
+			quitButton.Location = new System.Drawing.Point(150, 180);
 			quitButton.Text = "QUIT";
 			quitButton.Click += new EventHandler(OnClickQuit);
 
 			Controls.Add(systemButton);
 			Controls.Add(playButton);
 			Controls.Add (recordButton);
-			Controls.Add(stopRecordingAndSaveAsWavButton);
-			Controls.Add (resumeButton);
+			Controls.Add(stopRecording);
+			// just leave out Controls.Add (resumeButton);
 			Controls.Add (quitButton);
 			CenterToScreen();
 		}

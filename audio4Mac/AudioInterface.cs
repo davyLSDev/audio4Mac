@@ -1,30 +1,16 @@
-/* ? helpful info:
- * http://stackoverflow.com/questions/3880148/can-i-use-osx-augraph-from-monomac
- * http://stackoverflow.com/questions/3556886/nssound-like-framework-that-works-but-doesnt-require-dealing-with-a-steep-lear
- * 		Audio Queue services, QTkit 
- * Miquel and Mike Hutchitson give info here:
- * http://stackoverflow.com/questions/3880148/can-i-use-osx-augraph-from-monomac
- */
-// CHECK some of these may not be needed!
-using MonoMac;
-using MonoMac.Foundation;
-using MonoMac.AVFoundation;
-using MonoMac.AppKit;
-// using MonoMac.AudioUnitWrapper;
-using MonoMac.AudioToolbox;
-using MonoMac.AudioUnit;
-
+// CHECK some of these may not be needed anymore!
+using System;
 using System;
 using System.IO;
-
-
-/* note in libpalaso/Palaso.Media/AudioFactory.cs is where the audio interface is
- * chosen based on if the platform is MONO or not. If it is, then ALSA is used and AudioFactory returns 
- * "AudioAlsaSession (filepath)", otherwise windows returns "AudioIrrKlangSession(filePath)";
- *  there is a AudioGStreamerSession, and AudioNullSession ...
- *  looked into using GStreamer ... it uses QTKit, 
- * 	looked into SDL / and C# wrapper for that HMMMM
- */
+using System.Windows.Forms;
+using System.Drawing;
+using System.Media;
+using MonoMac;
+using MonoMac.Foundation;
+using MonoMac.AppKit;
+using MonoMac.AVFoundation;
+using MonoMac.AudioUnit;
+using MonoMac.AudioUnitWrapper;
 
 namespace SimpleAudio
 {
@@ -32,34 +18,9 @@ namespace SimpleAudio
 	/* This opening to this class will look more like: 
 	public class AudioAVFoundationSession : ISimpleAudioSession */
 	{
-		/* first attempt ... note some overloading of methods from here to the new AudioAVFoundationSession work
-		public int ERR = 0;
-		public NSSound playback = new NSSound ("../../media/applause_y.wav", byRef: false);
 
-		public AudioInterface ()
-		{
-			NSApplication.Init ();
-		}
-		public int Play()
-		{
-			playback.Play ();
-			return ERR;
-		}
-		public int Record()
-		{
-			return ERR;
-		}
-		public int Pause()
-		{
-			playback.Pause ();
-			return ERR;
-		}
-		public int  Resume()
-		{
-			playback.Resume ();
-			return ERR;
-		}
-		*/
+
+
 
 		/* The following is in template form from libpalaso/Palaso.Media/AlsaAudio/AlsaAudioSession.cs 
 		 * ... what needs to be implemented for libpalaso Media, and later Palaso.MediaTest et. al. 
@@ -72,26 +33,35 @@ namespace SimpleAudio
 		DateTime _startRecordingTime = DateTime.MinValue;
 		DateTime _stopRecordingTime = DateTime.MinValue;
 		// AlsaAudioDevice _device;
+
 		AVAudioRecorder _recordingDevice;
 		AVAudioPlayer _playbackDevice;
+		NSUrl _pathURL;
+		NSError _audioDeviceError;
+		AudioSettings _audioDeviceSettings;
 		#region Construction and Disposal
 
 		/// <summary>
 		/// Initialize a new instance of the <see cref="Palaso.Media.AudioAlsaSession"/> class.
 		/// </summary>
-		public AudioInterface (string filePath)
+		public AudioInterface (string filePath) // Likely to be renamed for libpalaso to: 'AudioAVFoundationSession'
 		{
 			FilePath = filePath;
-			// _device = new AlsaAudioDevice();
-			NSUrl UrlFilePath = new NSUrl(filePath);
-			NSString UrlDomain = new NSString ();
-			UrlDomain = (NSString)"Audio";
-			int ErrorCode = 0;
-			NSError ERR = new NSError (UrlDomain, ErrorCode);
+			NSApplication.Init ();
 
-			_recordingDevice = new AVAudioRecorder ();
-			_playbackDevice = new AVAudioPlayer(
-				"../../media/applause_y.wav", ERR);
+			_pathURL = new NSUrl (filePath);
+			_audioDeviceError = new NSError ();
+
+			_audioDeviceSettings = new AudioSettings {
+				Format = MonoMac.AudioToolbox.AudioFormatType.LinearPCM,
+				AudioQuality = AVAudioQuality.High,
+				SampleRate = 44100f,
+				NumberChannels = 1
+			};
+
+
+			 _recordingDevice = AVAudioRecorder.Create (_pathURL, _audioDeviceSettings, out _audioDeviceError);
+			_playbackDevice = new AVAudioPlayer (_pathURL, _audioDeviceError);
 		}
 
 		#endregion

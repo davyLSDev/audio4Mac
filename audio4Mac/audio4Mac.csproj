@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E5AFEB36-56F8-4038-91FA-6860E6A17840}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -47,5 +47,6 @@
   <ItemGroup>
     <None Include="Research\EarlyAttempts.txt" />
     <None Include="TODO.txt" />
+    <None Include="ideas.txt" />
   </ItemGroup>
 </Project>
