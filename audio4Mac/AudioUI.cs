@@ -31,7 +31,7 @@ namespace SimpleAudio {
 			playButton.Location = new System.Drawing.Point(80, 120);
 			playButton.Text = "Play!";
 			playButton.Click += new EventHandler(OnClickPlay);
-			playButton.MouseEnter += new EventHandler(OnEnter);
+			// playButton.MouseEnter += new EventHandler(OnEnter);
 
 			System.Windows.Forms.Button resumeButton = new System.Windows.Forms.Button();
 			resumeButton.Location = new System.Drawing.Point(80, 150);
@@ -78,12 +78,7 @@ namespace SimpleAudio {
 			var result = MessageBox.Show ("This is where you should hear audio.", "some sound hopefuly", 
 		                              MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
-
-		void OnEnter(object sender, EventArgs e) {
-			Console.WriteLine("Button Entered");
-		}
-
-			/* void OnClickPause(object sender, EventArgs e) { This is the old one */
+			
 			void OnClickStopRecordingAndSaveAsWav (object sender, EventArgs e) { 
 			/* int ERR;
 			ERR = Testing.Pause (); in the new AudioInterface, there is no Pause method */

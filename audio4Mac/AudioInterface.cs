@@ -18,10 +18,6 @@ namespace SimpleAudio
 	/* This opening to this class will look more like: 
 	public class AudioAVFoundationSession : ISimpleAudioSession */
 	{
-
-
-
-
 		/* The following is in template form from libpalaso/Palaso.Media/AlsaAudio/AlsaAudioSession.cs 
 		 * ... what needs to be implemented for libpalaso Media, and later Palaso.MediaTest et. al. 
 		 * Might not need all this stuff ... just sucked it in for some sense of completenss. */
@@ -51,14 +47,13 @@ namespace SimpleAudio
 
 			_pathURL = new NSUrl (filePath);
 			_audioDeviceError = new NSError ();
-
+			// Check out these settings against what we actually have in libPalaso
 			_audioDeviceSettings = new AudioSettings {
 				Format = MonoMac.AudioToolbox.AudioFormatType.LinearPCM,
 				AudioQuality = AVAudioQuality.High,
 				SampleRate = 44100f,
 				NumberChannels = 1
 			};
-
 
 			 _recordingDevice = AVAudioRecorder.Create (_pathURL, _audioDeviceSettings, out _audioDeviceError);
 			_playbackDevice = new AVAudioPlayer (_pathURL, _audioDeviceError);
@@ -104,9 +99,7 @@ namespace SimpleAudio
 		public void StopRecordingAndSaveAsWav()
 		{
 			if (!IsRecording)
-				// throw new ApplicationException("AlsaAudioSession: Not recording on the ALSA sound device");
 				throw new ApplicationException("AVRecorder: Not recording on the AVFoundation sound device");
-			// _device.StopRecording();
 			_recordingDevice.Stop ();
 			_stopRecordingTime = DateTime.Now;
 			SaveAsWav(FilePath);
@@ -131,7 +124,6 @@ namespace SimpleAudio
 		/// </summary>
 		public bool IsRecording
 		{
-			// get { return _device.IsRecording; }
 			get { return _recordingDevice.Recording; }
 		}
 
@@ -140,7 +132,6 @@ namespace SimpleAudio
 		/// </summary>
 		public bool IsPlaying
 		{
-			// get { return _device.IsPlaying; }
 			get { return _playbackDevice.Playing; }
 		}
 
@@ -197,7 +188,6 @@ namespace SimpleAudio
 		/// </summary>
 		public void StopPlaying()
 		{
-			// _device.StopPlaying();
 			_playbackDevice.Stop (); 
 		}
 
