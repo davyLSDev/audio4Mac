@@ -1,5 +1,3 @@
-// CHECK some of these may not be needed anymore!
-using System;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -9,8 +7,9 @@ using MonoMac;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.AVFoundation;
-using MonoMac.AudioUnit;
-using MonoMac.AudioUnitWrapper;
+using MonoMac.AudioToolbox;
+// using MonoMac.AudioUnit;
+// using MonoMac.AudioUnitWrapper;
 
 namespace SimpleAudio
 {
@@ -28,7 +27,6 @@ namespace SimpleAudio
 
 		DateTime _startRecordingTime = DateTime.MinValue;
 		DateTime _stopRecordingTime = DateTime.MinValue;
-		// AlsaAudioDevice _device;
 
 		AVAudioRecorder _recordingDevice;
 		AVAudioPlayer _playbackDevice;
@@ -49,7 +47,7 @@ namespace SimpleAudio
 			_audioDeviceError = new NSError ();
 			// Check out these settings against what we actually have in libPalaso
 			_audioDeviceSettings = new AudioSettings {
-				Format = MonoMac.AudioToolbox.AudioFormatType.LinearPCM,
+				Format = AudioFormatType.LinearPCM,
 				AudioQuality = AVAudioQuality.High,
 				SampleRate = 44100f,
 				NumberChannels = 1
